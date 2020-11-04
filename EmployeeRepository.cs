@@ -13,6 +13,7 @@ namespace ADO.NetDemo
         public static string ConnectionString = "Server=(localdb)\\MSSQLLocalDB;Database=Employee;Trusted_connection=True;MultipleActiveResultSets=True";
         //public static string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog =payroll_services; User ID = Ruthik; Password=Spacebar99*";
         SqlConnection connection = new SqlConnection(ConnectionString);
+        //UC1_For Establishing Connectiom
         public void GetAllEmployees()
         {
             EmployeeModel model = new EmployeeModel();
@@ -62,6 +63,7 @@ namespace ADO.NetDemo
                 this.connection.Close();
             }
         }
+        //UC2 For Adding Values in connected Table
         public bool AddEmployee(EmployeeModel model)
         {
             try
