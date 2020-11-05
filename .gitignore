@@ -31,6 +31,7 @@ x64/
 *.obj
 *.pch
 *.pdb
+*.csproj
 *.pgc
 *.pgd
 *.rsp
