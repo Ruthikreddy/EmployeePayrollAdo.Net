@@ -159,7 +159,7 @@ namespace ADO.NetDemo
             }
         }
         /// <summary>
-        /// Get All employee Started In A DateRange
+        /// creating method for Getting  All employee Started In given DateRange
         /// </summary>
         /// <returns></returns>
         public void GetAllemployeeStartedInADateRange()
@@ -193,12 +193,10 @@ namespace ADO.NetDemo
                         model.Tax = reader.GetDouble(11);
                         Console.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", model.EmployeeID, model.EmployeeName, model.Gender, model.Address, model.BasicPay, model.StartDate, model.PhoneNumber, model.Address, model.Department, model.Deductions, model.TaxablePay, model.Tax, model.NetPay);
                         Console.WriteLine("\n");
-                       
                     }
                     ///closing reader and connection
                     reader.Close();
                     connection.Close();
-                    
                 }
                 else
                 {
@@ -206,6 +204,44 @@ namespace ADO.NetDemo
                 }
             }
         }
-
+        /// <summary>
+        /// Grouping Data To Find Min Max Sum Average
+        /// UC6
+        /// </summary>
+        /// <returns></returns>
+        public void  GroupingDataToFindMinMaxSumAverage()
+        {
+            EmployeeModel model = new EmployeeModel();
+            using (connection)
+            {
+                ///query for finsing max min avg count
+                string query = "select Gender,sum(BasicPay)as SUM,min(BasicPay) as MIN,max(BasicPay)as MAX,avg(BasicPay) as AVG,count(BasicPay)as COUNT from employee_payroll Group  by Gender";
+                SqlCommand command = new SqlCommand(query, connection);
+                ///opening connection for reading
+                connection.Open();
+                //executing reader 
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        model.Gender = reader.GetString(0);
+                        model.BasicPay = reader.GetDouble(1);
+                        Console.WriteLine("{0},{1}", model.Gender, model.BasicPay);
+                        Console.WriteLine("\n");
+                    }
+                    ///to check if some rows are affected
+                    
+                    //closing connection and reader
+                    reader.Close();
+                    connection.Close();
+  
+                }
+                else
+                {
+                    throw new Exception("No data found");
+                }
+            }
+        }
     }
 }

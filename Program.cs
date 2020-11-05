@@ -17,7 +17,7 @@ namespace ADO.NetDemo
             //int EmpSalary = salary.UpdateSalary(updateModel);
             //Console.WriteLine("return int {0}",salary.UpdateSalary(updateModel));
             EmployeeRepository repository = new EmployeeRepository();
-            repository.GetAllemployeeStartedInADateRange();
+            repository.GroupingDataToFindMinMaxSumAverage();
             Console.ReadLine();
         }
     }
