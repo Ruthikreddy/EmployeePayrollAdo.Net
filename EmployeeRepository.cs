@@ -160,6 +160,54 @@ namespace ADO.NetDemo
                 connection.Close();
             }
         }
+        /// <summary>
+        /// Get All employee Started In A DateRange
+        /// </summary>
+        /// <returns></returns>
+        public void GetAllemployeeStartedInADateRange()
+        {
+            ///creating a list to store all those employees
+            EmployeeModel model = new EmployeeModel();
+
+            using (connection)
+            {
+                ///passing query
+                string query = "select * from employee_payroll where StartDate between cast('01-01-2018' as date) and getdate()";
+                SqlCommand command = new SqlCommand(query, connection);
+                ///opening connection to read
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        model.EmployeeID = reader.GetInt32(0);
+                        model.EmployeeName = reader.GetString(1);
+                        model.BasicPay = reader.GetDouble(2);
+                        model.StartDate = reader.GetDateTime(3);
+                        model.Gender = reader.GetString(4);
+                        model.PhoneNumber = reader.GetString(5);
+                        model.Address = reader.GetString(6);
+                        model.Department = reader.GetString(7);
+                        model.Deductions = reader.GetDouble(8);
+                        model.TaxablePay = reader.GetDouble(9);
+                        model.NetPay = reader.GetDouble(10);
+                        model.Tax = reader.GetDouble(11);
+                        Console.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", model.EmployeeID, model.EmployeeName, model.Gender, model.Address, model.BasicPay, model.StartDate, model.PhoneNumber, model.Address, model.Department, model.Deductions, model.TaxablePay, model.Tax, model.NetPay);
+                        Console.WriteLine("\n");
+                       
+                    }
+                    ///closing reader and connection
+                    reader.Close();
+                    connection.Close();
+                    
+                }
+                else
+                {
+                    throw new Exception("No data found");
+                }
+            }
+        }
 
     }
 }
