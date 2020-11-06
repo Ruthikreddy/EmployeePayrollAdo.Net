@@ -229,18 +229,61 @@ namespace ADO.NetDemo
                         model.BasicPay = reader.GetDouble(1);
                         Console.WriteLine("{0},{1}", model.Gender, model.BasicPay);
                         Console.WriteLine("\n");
-                    }
-                    ///to check if some rows are affected
-                    
+                    }        
                     //closing connection and reader
                     reader.Close();
                     connection.Close();
-  
                 }
                 else
                 {
                     throw new Exception("No data found");
                 }
+            }
+        }
+        /// <summary>
+        /// UC7 Inserting  data in Multiple  tbales at once at one query
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool Insertingmultiple(EmployeeModel model)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand command = new SqlCommand("dbo.SpInsertEmployeeDetails", this.connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@name", model.EmployeeName);
+                    command.Parameters.AddWithValue("@Base_Pay", model.BasicPay);
+                    command.Parameters.AddWithValue("@start", model.StartDate);
+                    command.Parameters.AddWithValue("@gender", model.Gender);
+                    command.Parameters.AddWithValue("@phone_number", model.PhoneNumber);
+                    command.Parameters.AddWithValue("@address", model.Address);
+                    command.Parameters.AddWithValue("@department", model.Department);
+                    command.Parameters.AddWithValue("@Deductions", model.Deductions);
+                    command.Parameters.AddWithValue("@Taxable_pay", model.TaxablePay);
+                    command.Parameters.AddWithValue("@Net_pay", model.NetPay);
+                    command.Parameters.AddWithValue("@Income_tax", model.Tax);
+                    //opening connection
+                    connection.Open();
+                    //Here it gives No of rows Effected
+                    var result = command.ExecuteNonQuery();
+                    connection.Close();
+                    //Checks result if any rows effected
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }
